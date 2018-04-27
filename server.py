@@ -1,9 +1,11 @@
 import random
+import requests
 import json
 from flask import (Flask,
                    request,
                    url_for,
-                   render_template)
+                   render_template,)
+import serial
 
 app = Flask(__name__)
 
@@ -14,11 +16,16 @@ def home():
 @app.route("/data.json")
 def data():
     # TODO read temperature and humidity from Arduino
-    indoor_temp = random.randint(60,80)
-    indoor_humidity = random.random()
+    ser = serial.Serial("/dev/ttyACM7", timeout=1)
+    l = ser.readline()
+    x = l.strip().split(",")
+    indoor_temp = x[0]
+    indoor_humidity = x[1]
     # TODO read temperature and humidity from openweathermap.org
-    outdoor_temp = random.randint(30,50)
-    outdoor_humidity = random.random()
+    r = requests.get("http://api.openweathermap.org/data/2.5/weather?id=4347242&units=imperial&appid=07bb18e0fe08bca1ad213f9ac70f5f06")
+    data = r.json()
+    outdoor_temp = data['main']['temp']
+    outdoor_humidity = data['main']['humidity']
     # send the result as JSON
     return json.dumps({
         "indoor_temp": indoor_temp,
@@ -32,6 +39,9 @@ def cheep():
     name = request.form['name']
     message = request.form['message']
     print("got a cheep from [%s]: %s" % (name,message))
-    # TODO: append [name: message] to a file of cheeps
+    # TODO: arduino.write(message) LOL ARDUINO DOESN'T WORK
+    with open("cheeps.log",'a') as f:
+      f.write("%s: %s" %(name,message))
+      f.write("\n")
     # TODO: display the cheep on the kit LCD
     return render_template('thankyou.html')

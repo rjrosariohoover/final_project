@@ -8,12 +8,27 @@
 <i class="far fa-sun fa-5x" style="color: orange"></i>
 <i class="fas fa-cloud fa-5x" style="color: gray"></i>
 
-<ul>
-  <li> The indoor temperature is <b id="indoor_temp">??</b> </li>
-  <li> The indoor humidity is <b id="indoor_humidity">??</b> </li>
-  <li> The outdoor temperature is <b id="outdoor_temp">??</b> </li>
-  <li> The outdoor humidity is <b id="outdoor_humidity">??</b> </li>
-</ul>
+<table class="table table-dark">
+  <thead>
+    <tr>
+      <th scope="col">Place</th>
+      <th scope="col">Temperature</th>
+      <th scope="col">Humidity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">Indoor</th>
+      <td id="indoor_temp">??</td>
+      <td id="indoor_humidity">??</td>
+    </tr>
+    <tr>
+      <th scope="row">Outdoor</th>
+      <td id="outdoor_temp">??</td>
+      <td id="outdoor_humidity">??</td>
+    </tr>
+  </tbody>
+</table>
 
 <!-- see https://canvas-gauges.com/documentation/examples/ -->
 <canvas
@@ -31,4 +46,9 @@
 <!-- TODO: add form with a name and message field:
      on submit POST the data to /cheep -->
 
+<form action="/cheep" method="post">
+  <input type="text" name="name"></input>
+  <input type="text" name="message"></input>
+  <button type="submit">Cheep!</button>
+</form>
 {% endblock %}

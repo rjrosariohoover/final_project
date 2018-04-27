@@ -9,7 +9,6 @@ function getData(){
 	$("#outdoor_temp").text(weather.outdoor_temp)
 	$("#outdoor_humidity").text(weather.outdoor_humidity)
 	//TODO: make other adjustments to UI based on these values
-
 	//or use a gauge from https://canvas-gauges.com/
 	//see: https://canvas-gauges.com/documentation/user-guide/configuration
 	$("#temp_gauge").attr("data-value",weather.indoor_temp)
